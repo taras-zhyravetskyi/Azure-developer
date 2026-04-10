@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azure Demo App</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f4f8;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+      color: white;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,120,212,0.3);
+    }
+
+    header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 0.25rem 0.85rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+
+    header h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: 0.4rem; }
+    header p  { font-size: 1rem; opacity: 0.85; }
+
+    main {
+      max-width: 900px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      border: 1px solid #e2e8f0;
+    }
+
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0078d4;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .endpoint-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .method {
+      background: #0078d4;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .path { font-family: 'Consolas', monospace; color: #1a1a2e; flex: 1; }
+    .desc { color: #64748b; font-size: 0.82rem; }
+
+    .health-section { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+
+    #health-btn {
+      background: #0078d4;
+      color: white;
+      border: none;
+      padding: 0.65rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    #health-btn:hover { background: #005a9e; }
+    #health-btn:disabled { background: #93c4e8; cursor: not-allowed; }
+
+    #health-result {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .dot.ok      { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.5); }
+    .dot.error   { background: #ef4444; }
+    .dot.loading { background: #f59e0b; animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .info-item label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 0.3rem;
+    }
+
+    .info-item span {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #1a1a2e;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">Azure App Service</div>
+    <h1>Azure Demo App</h1>
+    <p>Spring Boot 3 &nbsp;&middot;&nbsp; Java 17 &nbsp;&middot;&nbsp; Linux &nbsp;&middot;&nbsp; Poland Central</p>
+  </header>
+
+  <main>
+
+    <div class="card">
+      <h2>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        API Endpoints
+      </h2>
+      <div class="endpoint-list">
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <span class="path">/</span>
+          <span class="desc">Returns a greeting message</span>
+        </div>
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <span class="path">/health</span>
+          <span class="desc">Health check</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Health Check
+      </h2>
+      <div class="health-section">
+        <button id="health-btn" onclick="checkHealth()">Check Health</button>
+        <div id="health-result">
+          <div class="dot" id="dot"></div>
+          <span id="health-text">Click to check service status</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        App Info
+      </h2>
+      <div class="info-grid">
+        <div class="info-item"><label>Framework</label><span>Spring Boot 3.2.4</span></div>
+        <div class="info-item"><label>Runtime</label><span>Java 17</span></div>
+        <div class="info-item"><label>Platform</label><span>Azure App Service</span></div>
+        <div class="info-item"><label>OS</label><span>Linux</span></div>
+        <div class="info-item"><label>Region</label><span>Poland Central</span></div>
+        <div class="info-item"><label>SKU</label><span>Basic B1</span></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>AZ-204 Demo &mdash; Azure App Service</footer>
+
+  <script>
+    async function checkHealth() {
+      const btn  = document.getElementById('health-btn');
+      const dot  = document.getElementById('dot');
+      const text = document.getElementById('health-text');
+
+      btn.disabled = true;
+      dot.className = 'dot loading';
+      text.textContent = 'Checking...';
+
+      try {
+        const res = await fetch('/health');
+        const body = await res.text();
+        if (res.ok) {
+          dot.className = 'dot ok';
+          text.textContent = `Service is healthy — "${body}"`;
+        } else {
+          dot.className = 'dot error';
+          text.textContent = `Unhealthy (HTTP ${res.status})`;
+        }
+      } catch {
+        dot.className = 'dot error';
+        text.textContent = 'Could not reach the service';
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
