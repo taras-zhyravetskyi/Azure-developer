@@ -20,6 +20,9 @@
 
     <properties>
         <java.version>17</java.version>
+        <azure.subscriptionId>${env.AZURE_SUBSCRIPTION_ID}</azure.subscriptionId>
+        <azure.resourceGroup>${env.AZURE_RESOURCE_GROUP}</azure.resourceGroup>
+        <azure.appName>${env.AZURE_APP_NAME}</azure.appName>
     </properties>
 
     <dependencies>
@@ -41,9 +44,9 @@
                 <artifactId>azure-webapp-maven-plugin</artifactId>
                 <version>2.13.0</version>
                 <configuration>
-                    <subscriptionId>b12b83cf-f3ca-40f6-b080-ac91e7545226</subscriptionId>
-                    <resourceGroup>azurewebapptzh_group</resourceGroup>
-                    <appName>azurewebapptzh</appName>
+                    <subscriptionId>${azure.subscriptionId}</subscriptionId>
+                    <resourceGroup>${azure.resourceGroup}</resourceGroup>
+                    <appName>${azure.appName}</appName>
                     <region>polandcentral</region>
                     <runtime>
                         <os>Linux</os>
