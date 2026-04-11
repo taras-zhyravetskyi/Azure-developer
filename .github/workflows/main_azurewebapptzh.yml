@@ -5,8 +5,8 @@ name: Build and deploy JAR app to Azure Web App - azurewebapptzh
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
